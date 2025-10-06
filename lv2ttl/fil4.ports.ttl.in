@@ -4,7 +4,8 @@
 	doap:license <http://usefulinc.com/doap/licenses/gpl> ;
 	doap:maintainer <http://gareus.org/rgareus#me> ;
 	@VERSION@
-	doap:name "x42-eq - Parametric Equalizer@NAMESUFFIX@";
+	doap:name "Par.EQ";
+	<http://www.darkglass.com/lv2/ns#abbreviation> "PEQ";
 	lv2:requiredFeature urid:map ;
 	lv2:extensionData idpy:interface, state:interface @SIGNATURE@;
 	lv2:optionalFeature lv2:hardRTCapable, idpy:queue_draw, opts:options ;
@@ -51,6 +52,7 @@
 		lv2:default 0.0 ;
 		lv2:minimum -18.0 ;
 		lv2:maximum 18.0;
+		lv2:portProperty pprop:notOnGUI ;
 		units:unit units:db ;
 	] , [
 		a lv2:OutputPort ,
@@ -60,6 +62,7 @@
 		lv2:name "Peak" ;
 		lv2:minimum -120.0 ;
 		lv2:maximum 0.0;
+		lv2:portProperty pprop:notOnGUI ;
 		units:unit units:db ;
 	] , [
 		a lv2:InputPort ,
@@ -70,7 +73,7 @@
 		lv2:default 1 ;
 		lv2:minimum 0 ;
 		lv2:maximum 1 ;
-		lv2:portProperty lv2:integer, lv2:toggled;
+		lv2:portProperty lv2:integer, lv2:toggled, pprop:notOnGUI;
 		rdfs:comment "toggle to reset the peak"
 	] , [
 		a lv2:InputPort ,
@@ -81,7 +84,7 @@
 		lv2:default 0 ;
 		lv2:minimum 0 ;
 		lv2:maximum 1 ;
-		lv2:portProperty lv2:integer, lv2:toggled;
+		lv2:portProperty lv2:integer, lv2:toggled, pprop:notOnGUI;
 	] , [
 		a lv2:InputPort ,
 			lv2:ControlPort ;
@@ -92,7 +95,7 @@
 		lv2:minimum 5.0 ;
 		lv2:maximum 1250.0 ;
 		units:unit units:hz ;
-		lv2:portProperty pprop:logarithmic;
+		lv2:portProperty pprop:logarithmic, pprop:notOnGUI;
 	] , [
 		a lv2:InputPort ,
 			lv2:ControlPort ;
@@ -102,6 +105,7 @@
 		lv2:default 0.7 ;
 		lv2:minimum 0.0 ;
 		lv2:maximum 1.4;
+		lv2:portProperty pprop:notOnGUI ;
 		lv2:scalePoint [ rdfs:label  "-6dB @freq, no resonance";  rdf:value 0.0 ; ] ;
 		lv2:scalePoint [ rdfs:label  "-3dB @freq, flat";  rdf:value 0.7 ; ] ;
 		lv2:scalePoint [ rdfs:label  "0dB @freq, resonant";  rdf:value 1.0 ; ] ;
@@ -114,7 +118,7 @@
 		lv2:default 0 ;
 		lv2:minimum 0 ;
 		lv2:maximum 1 ;
-		lv2:portProperty lv2:integer, lv2:toggled;
+		lv2:portProperty lv2:integer, lv2:toggled, pprop:notOnGUI;
 	] , [
 		a lv2:InputPort ,
 			lv2:ControlPort ;
@@ -125,7 +129,7 @@
 		lv2:minimum 500.0 ;
 		lv2:maximum 20000.0 ;
 		units:unit units:hz ;
-		lv2:portProperty pprop:logarithmic;
+		lv2:portProperty pprop:logarithmic, pprop:notOnGUI;
 	] , [
 		a lv2:InputPort ,
 			lv2:ControlPort ;
@@ -135,6 +139,7 @@
 		lv2:default 1.0 ;
 		lv2:minimum 0.0 ;
 		lv2:maximum 1.4;
+		lv2:portProperty pprop:notOnGUI ;
 		lv2:scalePoint [ rdfs:label  "-6dB @freq, no resonance";  rdf:value 0.0 ; ] ;
 		lv2:scalePoint [ rdfs:label  "-3dB @freq, flat";  rdf:value 0.7 ; ] ;
 		lv2:scalePoint [ rdfs:label  "0dB @freq, resonant";  rdf:value 1.0 ; ] ;
@@ -147,13 +152,14 @@
 		lv2:default 1 ;
 		lv2:minimum 0 ;
 		lv2:maximum 1 ;
-		lv2:portProperty lv2:integer, lv2:toggled;
+		lv2:portProperty lv2:integer, lv2:toggled, pprop:notOnGUI;
 	] , [
 		a lv2:InputPort ,
 			lv2:ControlPort ;
 		lv2:index 13 ;
 		lv2:symbol "LSfreq" ;
-		lv2:name "Lowshelf Frequency" ;
+		lv2:name "Lowshelf Freq" ;
+		lv2:shortName "Lowshelf" ;
 		lv2:default 80.0 ;
 		lv2:minimum 25.0 ;
 		lv2:maximum 400.0 ;
@@ -164,7 +170,8 @@
 			lv2:ControlPort ;
 		lv2:index 14 ;
 		lv2:symbol "LSq" ;
-		lv2:name "Lowshelf Bandwidth" ;
+		lv2:name "Lowshelf BW" ;
+		lv2:shortName "Lowshelf" ;
 		lv2:default 1.0;
 		lv2:minimum 0.0625 ;
 		lv2:maximum 4.0;
@@ -174,6 +181,8 @@
 		lv2:index 15 ;
 		lv2:symbol "LSgain" ;
 		lv2:name "Lowshelf Gain" ;
+		lv2:shortName "Lowshelf" ;
+		lv2:designation <http://www.darkglass.com/lv2/ns#quickPot>;
 		lv2:default 0.0 ;
 		lv2:minimum -18.0 ;
 		lv2:maximum 18.0;
@@ -187,13 +196,14 @@
 		lv2:default 1 ;
 		lv2:minimum 0 ;
 		lv2:maximum 1 ;
-		lv2:portProperty lv2:integer, lv2:toggled;
+		lv2:portProperty lv2:integer, lv2:toggled, pprop:notOnGUI;
 	] , [
 		a lv2:InputPort ,
 			lv2:ControlPort ;
 		lv2:index 17 ;
 		lv2:symbol "freq1" ;
 		lv2:name "Frequency 1" ;
+		lv2:shortName "Freq 1" ;
 		lv2:default 160.0 ;
 		lv2:minimum 20.0 ;
 		lv2:maximum 2000.0 ;
@@ -205,6 +215,7 @@
 		lv2:index 18 ;
 		lv2:symbol "q1" ;
 		lv2:name "Bandwidth 1" ;
+		lv2:shortName "BW 1" ;
 		lv2:default 0.5 ;
 		lv2:minimum 0.0625 ;
 		lv2:maximum 4.0;
@@ -227,13 +238,14 @@
 		lv2:default 1 ;
 		lv2:minimum 0 ;
 		lv2:maximum 1 ;
-		lv2:portProperty lv2:integer, lv2:toggled;
+		lv2:portProperty lv2:integer, lv2:toggled, pprop:notOnGUI;
 	] , [
 		a lv2:InputPort ,
 			lv2:ControlPort ;
 		lv2:index 21 ;
 		lv2:symbol "freq2" ;
 		lv2:name "Frequency 2" ;
+		lv2:shortName "Freq 2" ;
 		lv2:default 397.0 ;
 		lv2:minimum 40.0 ;
 		lv2:maximum 4000.0 ;
@@ -245,6 +257,7 @@
 		lv2:index 22 ;
 		lv2:symbol "q2" ;
 		lv2:name "Bandwidth 2" ;
+		lv2:shortName "BW 2" ;
 		lv2:default 0.5 ;
 		lv2:minimum 0.0625 ;
 		lv2:maximum 4.0;
@@ -254,6 +267,7 @@
 		lv2:index 23 ;
 		lv2:symbol "gain2" ;
 		lv2:name "Gain 2" ;
+		lv2:shortName "Gain 2" ;
 		lv2:default 0.0 ;
 		lv2:minimum -18.0 ;
 		lv2:maximum 18.0;
@@ -267,13 +281,14 @@
 		lv2:default 1 ;
 		lv2:minimum 0 ;
 		lv2:maximum 1 ;
-		lv2:portProperty lv2:integer, lv2:toggled;
+		lv2:portProperty lv2:integer, lv2:toggled, pprop:notOnGUI;
 	] , [
 		a lv2:InputPort ,
 			lv2:ControlPort ;
 		lv2:index 25 ;
 		lv2:symbol "freq3" ;
 		lv2:name "Frequency 3" ;
+		lv2:shortName "Freq 3" ;
 		lv2:default 1250.0 ;
 		lv2:minimum 100.0 ;
 		lv2:maximum 10000.0 ;
@@ -285,6 +300,7 @@
 		lv2:index 26 ;
 		lv2:symbol "q3" ;
 		lv2:name "Bandwidth 3" ;
+		lv2:shortName "BW 3" ;
 		lv2:default 0.5 ;
 		lv2:minimum 0.0625 ;
 		lv2:maximum 4.0;
@@ -294,6 +310,7 @@
 		lv2:index 27 ;
 		lv2:symbol "gain3" ;
 		lv2:name "Gain 3" ;
+		lv2:shortName "Gain 3" ;
 		lv2:default 0.0 ;
 		lv2:minimum -18.0 ;
 		lv2:maximum 18.0;
@@ -307,13 +324,14 @@
 		lv2:default 1 ;
 		lv2:minimum 0 ;
 		lv2:maximum 1 ;
-		lv2:portProperty lv2:integer, lv2:toggled;
+		lv2:portProperty lv2:integer, lv2:toggled, pprop:notOnGUI;
 	] , [
 		a lv2:InputPort ,
 			lv2:ControlPort ;
 		lv2:index 29 ;
 		lv2:symbol "freq4" ;
 		lv2:name "Frequency 4" ;
+		lv2:shortName "Freq 4" ;
 		lv2:default 2500.0 ;
 		lv2:minimum 200.0 ;
 		lv2:maximum 20000.0 ;
@@ -325,6 +343,7 @@
 		lv2:index 30 ;
 		lv2:symbol "q4" ;
 		lv2:name "Bandwidth 4" ;
+		lv2:shortName "BW 4" ;
 		lv2:default 0.5 ;
 		lv2:minimum 0.0625 ;
 		lv2:maximum 4.0;
@@ -334,6 +353,7 @@
 		lv2:index 31 ;
 		lv2:symbol "gain4" ;
 		lv2:name "Gain 4" ;
+		lv2:shortName "Gain 4" ;
 		lv2:default 0.0 ;
 		lv2:minimum -18.0 ;
 		lv2:maximum 18.0;
@@ -347,13 +367,14 @@
 		lv2:default 1 ;
 		lv2:minimum 0 ;
 		lv2:maximum 1 ;
-		lv2:portProperty lv2:integer, lv2:toggled;
+		lv2:portProperty lv2:integer, lv2:toggled, pprop:notOnGUI;
 	] , [
 		a lv2:InputPort ,
 			lv2:ControlPort ;
 		lv2:index 33 ;
 		lv2:symbol "HSfreq" ;
-		lv2:name "Highshelf Frequency" ;
+		lv2:name "Highshelf Freq" ;
+		lv2:shortName "Highshelf" ;
 		lv2:default 8000.0 ;
 		lv2:minimum 1000.0 ;
 		lv2:maximum 16000.0 ;
@@ -364,7 +385,8 @@
 			lv2:ControlPort ;
 		lv2:index 34 ;
 		lv2:symbol "HSq" ;
-		lv2:name "Highshelf Bandwidth" ;
+		lv2:name "Highshelf BW" ;
+		lv2:shortName "Highshelf" ;
 		lv2:default 1.0;
 		lv2:minimum 0.0625;
 		lv2:maximum 4.0;
@@ -374,6 +396,7 @@
 		lv2:index 35 ;
 		lv2:symbol "HSgain" ;
 		lv2:name "Highshelf Gain" ;
+		lv2:shortName "Highshelf" ;
 		lv2:default 0.0 ;
 		lv2:minimum -18.0 ;
 		lv2:maximum 18.0;

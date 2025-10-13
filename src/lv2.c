@@ -98,6 +98,28 @@ typedef struct {
 #endif
 } Fil4;
 
+/* Conversion from internal bw to normalized "width" 
+   Originally from gui/fil4.c */
+static float bw_to_dial (float v) {
+	if (v < .0625) return 0.f;
+	if (v >  4.0) return 1.f;
+	return log2f (16.f * v) / 6.f;
+}
+
+/* Conversion from normalized "width" to internal bw
+   Originally from gui/fil4.c */
+static float dial_to_bw (const float v) {
+	return powf (2, 6.f * v - 4.f);
+}
+
+static float shelf_bw_to_dial (float v) {
+	return 1.f - bw_to_dial(v);
+}
+
+static float shelf_dial_to_bw (float v) {
+	return dial_to_bw(1.f - v);
+}
+
 static void init_filter_channel (FilterChannel *fc, double rate) {
 	fc->_fade = 0;
 	fc->_gain = 1.f;
@@ -276,9 +298,10 @@ static void process_channel(Fil4* self, FilterChannel *fc, uint32_t p_samples, u
 	const float hs_gain = *self->_port[IIR_HS_EN] > 0 ? powf (10.f, .05f * self->_port[IIR_HS_GAIN][0]) : 1.f;
 	const float ls_freq = *self->_port[IIR_LS_FREQ];
 	const float hs_freq = *self->_port[IIR_HS_FREQ];
+	// map normalized width [0 .. 1] to bandwith [0.0625 .. 4] and
 	// map [2^-4 .. 4] to [2^(-3/2) .. 2]
-	const float ls_q    = .2129f + self->_port[IIR_LS_Q][0] / 2.25f;
-	const float hs_q    = .2129f + self->_port[IIR_HS_Q][0] / 2.25f;
+	const float ls_q    = .2129f + shelf_dial_to_bw(self->_port[IIR_LS_Q][0]) / 2.25f;
+	const float hs_q    = .2129f + shelf_dial_to_bw(self->_port[IIR_HS_Q][0]) / 2.25f;
 	const bool  hipass  = *self->_port[FIL_HIPASS] > 0 ? true : false;
 	const bool  lopass  = *self->_port[FIL_LOPASS] > 0 ? true : false;
 	float hifreq  = *self->_port[FIL_HIFREQ];
@@ -319,7 +342,7 @@ static void process_channel(Fil4* self, FilterChannel *fc, uint32_t p_samples, u
 		if (t > 0.4998) t = 0.4998;
 
 		sfreq [j] = t;
-		sband [j] = self->_port [FIL_SEC1 + 4 * j + Fil4Paramsect::BAND][0];
+		sband [j] = dial_to_bw(self->_port [FIL_SEC1 + 4 * j + Fil4Paramsect::BAND][0]);
 
 		if (self->_port [FIL_SEC1 + 4 * j + Fil4Paramsect::SECT][0] > 0) {
 			sgain [j] = exp2ap (0.1661 * self->_port [FIL_SEC1 + 4 * j + Fil4Paramsect::GAIN][0]);

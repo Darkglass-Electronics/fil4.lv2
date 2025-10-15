@@ -9,7 +9,7 @@
 		foaf:mbox <mailto:contact@darkglass.com> ;
 	] ;
 	@VERSION@
-	doap:name "Par.EQ";
+	doap:name "Parametric EQ";
 	<http://www.darkglass.com/lv2/ns#abbreviation> "PEQ";
 	lv2:requiredFeature urid:map ;
 	lv2:extensionData idpy:interface, state:interface @SIGNATURE@;

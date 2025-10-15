@@ -2,7 +2,12 @@
 @LV2NAME@:@URISUFFIX@
 	a lv2:Plugin, doap:Project, lv2:ParaEQPlugin;
 	doap:license <http://usefulinc.com/doap/licenses/gpl> ;
-	doap:maintainer <http://gareus.org/rgareus#me> ;
+	doap:developer <http://gareus.org/rgareus#me> ;
+	doap:maintainer [
+		foaf:name "Darkglass" ;
+		foaf:homepage <https://www.darkglass.com/> ;
+		foaf:mbox <mailto:contact@darkglass.com> ;
+	] ;
 	@VERSION@
 	doap:name "Par.EQ";
 	<http://www.darkglass.com/lv2/ns#abbreviation> "PEQ";

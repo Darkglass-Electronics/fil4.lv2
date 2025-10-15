@@ -4,7 +4,7 @@
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix ui:    <http://lv2plug.in/ns/extensions/ui#> .
 
-@prefix @LV2NAME@: <http://gareus.org/oss/lv2/@LV2NAME@#> .
+@prefix @LV2NAME@: <urn:darkglass:@LV2NAME@#> .
 
 @LV2NAME@:mono
 	a lv2:Plugin ;

@@ -29,7 +29,7 @@
 #include <lv2/lv2plug.in/ns/ext/urid/urid.h>
 #endif
 
-#define FIL4_URI "http://gareus.org/oss/lv2/fil4#"
+#define FIL4_URI "urn:darkglass:fil4#"
 
 #ifdef HAVE_LV2_1_8
 #define x_forge_object lv2_atom_forge_object

@@ -1,6 +1,22 @@
 fil4.lv2 - Parametric Equalizer
 ===============================
 
+---
+
+**This is a forked version for use within Darkglass which modifies the LV2 version.**  
+**The URI has also been changed as to not conflict with the original.**
+**This fork contains changes that likely break the GUI and is not intended to be used with the GUI**
+
+List of changes so far:
+- Added dg:abbreviation
+- Added lv2:shortName and notOnGUI property for some parameters
+- Changed bandwidth ports to [0, 1] "width"/"dial" ports
+- Edited ranges of frequency parameters
+
+The original README contents follows after this line.
+
+---
+
 fil4.lv2 is a 4 band parametric equalizer with additional low+high shelf
 filters, Low and High-pass, as well as an optional, custom GUI displaying
 the transfer function and realtime signal spectrum or spectrogram.

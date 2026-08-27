@@ -50,8 +50,8 @@ typedef struct {
 
 static float calc_lop_alpha (float rate, float freq) {
 	float fr = freq / rate;
-	if (fr < 0.0002) fr = 0.0002;
-	if (fr > 0.4998) fr = 0.4998;
+	// if (fr < 0.0002) fr = 0.0002;
+	// if (fr > 0.4998) fr = 0.4998;
 	return 1.0 - exp (-2.0 * M_PI * fr);
 }
 

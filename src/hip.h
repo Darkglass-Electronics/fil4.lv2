@@ -57,12 +57,12 @@ static bool hip_interpolate (HighPass *f, bool en, float freq, float q) {
 
 	if (freq != f->freq) {
 		f->freq = freq;
-		if (freq > f->rate / 12.f) {
-			freq = f->rate / 12.f;
-		}
-		if (freq < 5.f) {
-			freq = 5.f;
-		}
+		// if (freq > f->rate / 12.f) {
+		// 	freq = f->rate / 12.f;
+		// }
+		// if (freq < 5.f) {
+		// 	freq = 5.f;
+		// }
 		f->omega = freq / f->rate;
 		f->alpha = exp (-2.0 * M_PI * f->omega);
 		changed = true;

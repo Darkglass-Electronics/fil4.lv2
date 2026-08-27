@@ -294,20 +294,26 @@ static void tx_state (Fil4* self)
 static void process_channel(Fil4* self, FilterChannel *fc, uint32_t p_samples, uint32_t chn) {
 
 	/* localize variables */
-	const float ls_gain = *self->_port[IIR_LS_EN] > 0 ? powf (10.f, .05f * self->_port[IIR_LS_GAIN][0]) : 1.f;
-	const float hs_gain = *self->_port[IIR_HS_EN] > 0 ? powf (10.f, .05f * self->_port[IIR_HS_GAIN][0]) : 1.f;
+
+	// use hipass and lopass ports to toggle between filter type
+	// 1 -> hipass for lowest band, lopass for highest band
+	// 0 -> low sheld for lowest band, high shelf for highest band
+	const bool  hipass  = *self->_port[FIL_HIPASS] > 0 ? true : false;
+	const bool  lopass  = *self->_port[FIL_LOPASS] > 0 ? true : false;
+	const float ls_gain = hipass ? 1.f : (*self->_port[IIR_LS_EN] > 0 ? powf (10.f, .05f * self->_port[IIR_LS_GAIN][0]) : 1.f);
+	const float hs_gain = lopass ? 1.f : (*self->_port[IIR_HS_EN] > 0 ? powf (10.f, .05f * self->_port[IIR_HS_GAIN][0]) : 1.f);
 	const float ls_freq = *self->_port[IIR_LS_FREQ];
 	const float hs_freq = *self->_port[IIR_HS_FREQ];
+
 	// map normalized width [0 .. 1] to bandwith [0.0625 .. 4] and
 	// map [2^-4 .. 4] to [2^(-3/2) .. 2]
 	const float ls_q    = .2129f + shelf_dial_to_bw(self->_port[IIR_LS_Q][0]) / 2.25f;
 	const float hs_q    = .2129f + shelf_dial_to_bw(self->_port[IIR_HS_Q][0]) / 2.25f;
-	const bool  hipass  = *self->_port[FIL_HIPASS] > 0 ? true : false;
-	const bool  lopass  = *self->_port[FIL_LOPASS] > 0 ? true : false;
-	float hifreq  = *self->_port[FIL_HIFREQ];
-	float hi_q    = *self->_port[FIL_HIQ];
-	float lofreq  = *self->_port[FIL_LOFREQ];
-	float lo_q    = *self->_port[FIL_LOQ];
+
+	float hifreq  = ls_freq;
+	float hi_q    = ls_q;
+	float lofreq  = hs_freq;
+	float lo_q    = hs_q;
 
 	float *aip = self->_port [FIL_INPUT0 + (chn<<1)];
 	float *aop = self->_port [FIL_OUTPUT0 + (chn<<1)];
@@ -319,14 +325,14 @@ static void process_channel(Fil4* self, FilterChannel *fc, uint32_t p_samples, u
 
 	/* clamp inputs to legal range - see lv2ttl/fil4.ports.ttl.in */
 	if (lofreq > self->below_nyquist) lofreq = self->below_nyquist;
-	if (lofreq < 630) lofreq = 630;
+	if (lofreq < 20) lofreq = 20;
 	if (lofreq > 20000) lofreq = 20000;
 	if (lo_q < 0.0625) lo_q = 0.0625;
 	if (lo_q > 4.0)    lo_q = 4.0;
 
 	if (hifreq > self->below_nyquist) hifreq = self->below_nyquist;
-	if (hifreq < 10) hifreq = 10;
-	if (hifreq > 1000) hifreq = 1000;
+	if (hifreq < 20) hifreq = 20;
+	if (hifreq > 20000) hifreq = 20000;
 	if (hi_q < 0.0625) hi_q = 0.0625;
 	if (hi_q > 4.0)    hi_q = 4.0;
 

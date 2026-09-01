@@ -85,12 +85,13 @@
 			lv2:ControlPort ;
 		lv2:index 6 ;
 		lv2:symbol "HighPass" ;
-		lv2:name "Highpass";
+		lv2:name "LS - HP";
 		lv2:default 0 ;
-		lv2:minimum 0 ;
-		lv2:maximum 1 ;
+		lv2:minimum 0 ; # Low shelf mode
+		lv2:maximum 1 ; # Highpass mode 
 		lv2:portProperty lv2:integer, lv2:toggled, pprop:notOnGUI;
 	] , [
+		# not used currently
 		a lv2:InputPort ,
 			lv2:ControlPort ;
 		lv2:index 7 ;
@@ -102,6 +103,7 @@
 		units:unit units:hz ;
 		lv2:portProperty pprop:logarithmic, pprop:notOnGUI;
 	] , [
+		# not used currently
 		a lv2:InputPort ,
 			lv2:ControlPort ;
 		lv2:index 8 ;
@@ -119,12 +121,13 @@
 			lv2:ControlPort ;
 		lv2:index 9 ;
 		lv2:symbol "LowPass" ;
-		lv2:name "Lowpass";
+		lv2:name "HS - LP";
 		lv2:default 0 ;
-		lv2:minimum 0 ;
-		lv2:maximum 1 ;
+		lv2:minimum 0 ; # High shelf mode
+		lv2:maximum 1 ; # Lowpass mode
 		lv2:portProperty lv2:integer, lv2:toggled, pprop:notOnGUI;
 	] , [
+		# not used currently
 		a lv2:InputPort ,
 			lv2:ControlPort ;
 		lv2:index 10 ;
@@ -136,6 +139,7 @@
 		units:unit units:hz ;
 		lv2:portProperty pprop:logarithmic, pprop:notOnGUI;
 	] , [
+		# not used currently
 		a lv2:InputPort ,
 			lv2:ControlPort ;
 		lv2:index 11 ;
@@ -163,8 +167,8 @@
 			lv2:ControlPort ;
 		lv2:index 13 ;
 		lv2:symbol "LSfreq" ;
-		lv2:name "Lowshelf Freq" ;
-		lv2:shortName "Lowshelf" ;
+		lv2:name "Lowshelf and Highpass Freq" ;
+		lv2:shortName "LS HP Freq" ;
 		lv2:default 80.0 ;
 		lv2:minimum 20.0 ;
 		lv2:maximum 20000.0 ;
@@ -175,8 +179,8 @@
 			lv2:ControlPort ;
 		lv2:index 14 ;
 		lv2:symbol "LSwidth" ;
-		lv2:name "Lowshelf Width" ;
-		lv2:shortName "Lowshelf" ;
+		lv2:name "Lowshelf and Highpass Width" ;
+		lv2:shortName "LS HP W" ;
 		lv2:default 0.33;
 		lv2:minimum 0.0 ;
 		lv2:maximum 1.0;
@@ -378,8 +382,8 @@
 			lv2:ControlPort ;
 		lv2:index 33 ;
 		lv2:symbol "HSfreq" ;
-		lv2:name "Highshelf Freq" ;
-		lv2:shortName "Highshelf" ;
+		lv2:name "Highshelf and Lowpass Freq" ;
+		lv2:shortName "HS LP Freq" ;
 		lv2:default 8000.0 ;
 		lv2:minimum 20.0 ;
 		lv2:maximum 20000.0 ;
@@ -390,8 +394,8 @@
 			lv2:ControlPort ;
 		lv2:index 34 ;
 		lv2:symbol "HSwidth" ;
-		lv2:name "Highshelf W" ;
-		lv2:shortName "Highshelf" ;
+		lv2:name "Highshelf and Lowpass Width" ;
+		lv2:shortName "HS LP W" ;
 		lv2:default 0.33;
 		lv2:minimum 0.0;
 		lv2:maximum 1.0;

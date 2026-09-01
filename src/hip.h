@@ -57,6 +57,8 @@ static bool hip_interpolate (HighPass *f, bool en, float freq, float q) {
 
 	if (freq != f->freq) {
 		f->freq = freq;
+		// NOTE: limitations disabled for increased frequency range which may cause issues
+		// 20Hz...20kHz at 48kHz doesn't show bad instability at least
 		// if (freq > f->rate / 12.f) {
 		// 	freq = f->rate / 12.f;
 		// }

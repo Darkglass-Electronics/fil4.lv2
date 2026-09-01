@@ -297,13 +297,17 @@ static void process_channel(Fil4* self, FilterChannel *fc, uint32_t p_samples, u
 
 	// use hipass and lopass ports to toggle between filter type
 	// 1 -> hipass for lowest band, lopass for highest band
-	// 0 -> low sheld for lowest band, high shelf for highest band
+	// 0 -> low shelf for lowest band, high shelf for highest band
 	const bool  hipass  = *self->_port[FIL_HIPASS] > 0 ? true : false;
 	const bool  lopass  = *self->_port[FIL_LOPASS] > 0 ? true : false;
 	const float ls_gain = hipass ? 1.f : (*self->_port[IIR_LS_EN] > 0 ? powf (10.f, .05f * self->_port[IIR_LS_GAIN][0]) : 1.f);
 	const float hs_gain = lopass ? 1.f : (*self->_port[IIR_HS_EN] > 0 ? powf (10.f, .05f * self->_port[IIR_HS_GAIN][0]) : 1.f);
 	const float ls_freq = *self->_port[IIR_LS_FREQ];
 	const float hs_freq = *self->_port[IIR_HS_FREQ];
+
+	// TODO use darkglass control port state update extension to show that
+	// low shelf gain is inactive when hipass==true
+	// high shelf gain is inactive when lopass==true
 
 	// map normalized width [0 .. 1] to bandwith [0.0625 .. 4] and
 	// map [2^-4 .. 4] to [2^(-3/2) .. 2]

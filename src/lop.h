@@ -50,6 +50,8 @@ typedef struct {
 
 static float calc_lop_alpha (float rate, float freq) {
 	float fr = freq / rate;
+	// NOTE: limitations disabled for increased frequency range which may cause issues
+	// 20Hz...20kHz at 48kHz doesn't show bad instability at least
 	// if (fr < 0.0002) fr = 0.0002;
 	// if (fr > 0.4998) fr = 0.4998;
 	return 1.0 - exp (-2.0 * M_PI * fr);

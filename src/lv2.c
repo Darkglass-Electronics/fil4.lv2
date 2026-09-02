@@ -120,6 +120,21 @@ static float shelf_dial_to_bw (float v) {
 	return dial_to_bw(1.f - v);
 }
 
+static float dial_to_hplp (const float v) {
+#if 1
+	float rv = 0.872328 + 0.191296 * tan (2.57801 * (v - 0.525561));
+	if (rv < 0) return 0;
+	if (rv > 1.4) return 1.4;
+	return rv;
+#else
+	return v * 1.4;
+#endif
+}
+
+static float dial_w_to_hplp (const float v) {
+	return dial_to_hplp(1.f - v);
+}
+
 static void init_filter_channel (FilterChannel *fc, double rate) {
 	fc->_fade = 0;
 	fc->_gain = 1.f;
@@ -315,9 +330,9 @@ static void process_channel(Fil4* self, FilterChannel *fc, uint32_t p_samples, u
 	const float hs_q    = .2129f + shelf_dial_to_bw(self->_port[IIR_HS_Q][0]) / 2.25f;
 
 	float hifreq  = ls_freq;
-	float hi_q    = ls_q;
+	float hi_q    = dial_w_to_hplp(self->_port[IIR_LS_Q][0]);
 	float lofreq  = hs_freq;
-	float lo_q    = hs_q;
+	float lo_q    = dial_w_to_hplp(self->_port[IIR_HS_Q][0]);
 
 	float *aip = self->_port [FIL_INPUT0 + (chn<<1)];
 	float *aop = self->_port [FIL_OUTPUT0 + (chn<<1)];
